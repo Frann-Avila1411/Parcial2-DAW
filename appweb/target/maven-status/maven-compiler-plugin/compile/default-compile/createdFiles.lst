@@ -1,0 +1,9 @@
+libcode\webapp\entidades\Inscripciones.class
+libcode\webapp\controladores\IndexController.class
+MateriaController.class
+libcode\webapp\negocio\DataService.class
+libcode\webapp\controladores\InscripcionController.class
+libcode\webapp\resources\App.class
+libcode\webapp\entidades\Materia.class
+libcode\webapp\entidades\Alumnos.class
+libcode\webapp\resources\Recurso.class

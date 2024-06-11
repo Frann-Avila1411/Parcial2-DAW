@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Inscripciones Web App</title>
+        <style>
+            .center {
+                text-align: center;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <!-- Menú Principal -->
+            <p:menubar styleClass="horizontal-menu">
+
+                <p:menuitem value="Registrar Alumno" url="index.xhtml"/>
+                <p:menuitem value="Registrar Materia" url="materias.xhtml"/>
+                <p:menuitem value="Inscribir Materias" url="Inscripciones.xhtml"/>
+
+            </p:menubar>
+        </h:form>
+
+        <div class="center">
+            <h1>Inscripciones Web App</h1>
+        </div>
+
+        <h:form id="inscripcionesForm">
+            <p:panelGrid columns="4" layout="grid">
+                <h:outputLabel for="alumnoSelect" value="Buscar Alumno:" style="text-align: right;" />
+                <h:selectOneMenu id="alumnoSelect" value="#{inscripcionController.selectedAlumnoId}" required="true" style="width: 200px;">
+                    <f:selectItems value="#{inscripcionController.alumnosList}" var="alumno" itemValue="#{alumno.id}" itemLabel="#{alumno.nombre}" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="materiaSelect" value="Buscar Materia:" style="text-align: right;" />
+                <h:selectOneMenu id="materiaSelect" value="#{inscripcionController.selectedMateriaId}" required="true" style="width: 200px;">
+                    <f:selectItems value="#{inscripcionController.materiasList}" var="materia" itemValue="#{materia.id}" itemLabel="#{materia.nombre}" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="anioInput" value="Año:" style="text-align: right;" />
+                <p:inputText id="anioInput" value="#{inscripcionController.anio}" required="true" style="width: 150px;" />
+
+                <h:outputLabel for="cicloInput" value="Ciclo:" style="text-align: right;" />
+                <p:inputText id="cicloInput" value="#{inscripcionController.ciclo}" required="true" style="width: 150px;" />
+            </p:panelGrid>
+
+
+            <p:panelGrid columns="1" layout="grid">
+                <p:commandButton value="Guardar" action="#{inscripcionController.save}"
+                                 update="inscripcionesForm mensajesTabla inscripcionesTable" />
+            </p:panelGrid>
+            <p:messages id="mensajesTabla" showDetail="true" />
+        </h:form>
+
+        <h3>Inscripciones:</h3>
+        <p:dataTable id="inscripcionesTable" var="inscripcion" value="#{inscripcionController.inscripciones}"
+                     paginator="true" rows="6" rowIndexVar="rowIndex">
+            <p:column headerText="#">
+                <h:outputText value="#{rowIndex + 1}" />
+            </p:column>
+            <p:column headerText="Alumno">
+                <h:outputText value="#{inscripcion.alumnos.nombre}" />
+            </p:column>
+            <p:column headerText="Materia">
+                <h:outputText value="#{inscripcion.materia.nombre}" />
+            </p:column>
+            <p:column headerText="Ciclo">
+                <h:outputText value="#{inscripcion.ciclo}" />
+            </p:column>
+            <p:column headerText="Año">
+                <h:outputText value="#{inscripcion.anio}" />
+            </p:column>
+            <p:column headerText="Fecha">
+                <h:outputText value="#{inscripcion.fechaInscripcion}" />
+            </p:column>
+        </p:dataTable>
+
+
+
+    </h:body>
+</html>

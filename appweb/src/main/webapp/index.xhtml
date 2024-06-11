@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <!-- Menú Principal -->
+            <p:menubar styleClass="horizontal-menu">
+
+                <p:menuitem value="Registrar Alumno" url="index.xhtml"/>
+                <p:menuitem value="Registrar Materia" url="materias.xhtml"/>
+                <p:menuitem value="Inscribir Materias" url="Inscripciones.xhtml"/>
+
+            </p:menubar>
+        </h:form>
+
+        <p:card style="margin: 5% 5% 5% 5%">
+            <f:facet name="title">
+                Formulario de Alumno
+            </f:facet>
+            <f:view>
+                <h:form id="alumnoForm" >
+
+                    <h:inputHidden id="id" value="#{indexController.alumnoSeleccionado.id}"/>
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel value="Nombre:"/>
+                        <p:inputText id="nombre" value="#{indexController.alumnoSeleccionado.nombre}"/>
+
+                        <p:outputLabel value="Carnet:"/>
+                        <p:inputText id="carnet" value="#{indexController.alumnoSeleccionado.carnet}"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="4" layout="grid">
+                        <p:commandButton value="Guardar" actionListener="#{indexController.guardarAlumnos}" 
+                                         update="tablaAlumnos alumnoForm" />
+                    </p:panelGrid>
+                </h:form>
+            </f:view>
+        </p:card>
+
+        <p:card style="margin: 5% 5% 5% 5%">
+            <h1>Listado de Alumnos</h1>
+            <h:form id="tablaAlumnos">
+                <p:dataTable rows="5" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                             value="#{indexController.alumnosList}" var="alumno">
+                    <p:column>
+                        <f:facet name="header">ID</f:facet>
+                        <span> #{alumno.id}</span>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Nombre</f:facet>
+                        <span> #{alumno.nombre}</span>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Carnet</f:facet>
+                        <span> #{alumno.carnet}</span>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Opciones</f:facet>
+
+                        <p:commandButton value="Editar" icon="pi pi-pencil" update="alumnoForm"
+                                         actionListener="#{indexController.llenarFormEditar(alumno)}"/>
+                        <p:spacer width="15"/> 
+                        <p:commandButton value="Eliminar" icon="pi pi-trash" update="tablaAlumnos"
+                                         style="background-color: red" 
+                                         action="#{indexController.eliminarAlumnos(alumno)}"> 
+
+                            <p:confirm header="Confirmar" 
+                                       message="¿Realmente desea eliminar al alumno: #{alumno.nombre}?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+
+                    </p:column>
+                </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form>
+        </p:card>
+
+    </h:body>
+</html>
